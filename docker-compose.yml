@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+    # image project  
+    php:
+        build:
+            context: docker/php
+            dockerfile: Dockerfile
+        container_name: appmake-adianti
+        image: appmake/adianti-app
+        volumes:
+            - ./docker/apache/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+            - /home/alex/Projetos/Adianti:/var/www/html
+        ports:
+            - 8989:80
+            # - 443:443
+        restart: unless-stopped
+        networks:
+            - adianti
+
+    mysql:
+        container_name: appmake-mysql
+        image: mysql:8.0.31
+        restart: unless-stopped
+        command: --ssl=0 --default-authentication-plugin=mysql_native_password
+        environment: 
+            MYSQL_ROOT_PASSWORD: app@123.
+            TZ: "America/Sao_Paulo"
+        volumes: 
+            - ./docker/mysql/dbdata:/var/lib/mysql
+            - ./docker/mysql/conf.d:/etc/mysql/conf.d"
+        ports: 
+            - "3307:3306"
+        networks: 
+            - adianti
+
+networks: 
+    adianti:
+        driver: bridge
