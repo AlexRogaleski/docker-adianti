@@ -22,13 +22,13 @@ services:
         container_name: appmake-mysql
         image: mysql:8.0.31
         restart: unless-stopped
-        command: --ssl=0 --default-authentication-plugin=mysql_native_password
+        command: --ssl=0 --default-authentication-plugin=mysql_native_password --sql_mode="ALLOW_INVALID_DATES" --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         environment: 
             MYSQL_ROOT_PASSWORD: app@123.
             TZ: "America/Sao_Paulo"
         volumes: 
             - ./docker/mysql/dbdata:/var/lib/mysql
-            - ./docker/mysql/conf.d:/etc/mysql/conf.d"
+            # - ./docker/mysql/conf.d:/etc/mysql/conf.d"
         ports: 
             - "3307:3306"
         networks: 
