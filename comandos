@@ -1,0 +1,16 @@
+# listar ip de todos os container
+docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)
+
+# Iniciar containers e reconfigurar container após editar docker-composer.yaml
+docker compose up -d --build
+
+# Iniciar containers
+docker compose up
+
+# Parar containers
+docker compose stop
+
+# Executar comandos
+docker compose exec web-server composer install --working-dir /var/www/html/truckpark
+
+docker exec -it lamp_web-server /bin/bash
